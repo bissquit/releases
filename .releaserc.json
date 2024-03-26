@@ -1,0 +1,40 @@
+{
+  "branches": [
+    "main",
+    "release",
+    {"name": "release-*", "prerelease": true},
+    {"name": "alpha", "prerelease": true},
+    {"name": "beta", "prerelease": true},
+    {"name": "dev", "prerelease": true}
+  ],
+  "ci": false,
+  "plugins": [
+    [
+      "@semantic-release/commit-analyzer",
+      {
+        "preset": "conventionalcommits",
+        "releaseRules": [
+          { "type": "refactor", "release": "patch" },
+          { "type": "docs", "release": "patch" },
+          { "type": "ci", "release": false },
+          { "scope": "no-release", "release": false }
+        ]
+      }
+    ],
+    [
+      "@semantic-release/release-notes-generator",
+      {
+        "preset": "conventionalcommits"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "successComment": "This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:",
+        "labels": false,
+        "releasedLabels": false
+      }
+    ]
+  ]
+}
+

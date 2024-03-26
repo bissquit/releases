@@ -1,0 +1,51 @@
+name: 'Release'
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: 'Release'
+    #runs-on: [self-hosted, infra]
+    runs-on: ubuntu-20.04
+    container: node:20-bullseye
+    defaults:
+      run:
+        shell: bash
+    permissions: write-all
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: 'Debug'
+        run: |
+          printenv
+
+      - name: 'Install and Configure applications'
+        run: |
+          apt-get update
+          apt-get install -yqq --no-install-recommends \
+            ca-certificates \
+            git-core
+          rm /bin/sh
+          ln -s /bin/bash /bin/sh
+
+      - name: 'Checkout repository'
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: 'Add git path to trusted'
+        run: |
+          git config --global --add safe.directory ${GITHUB_WORKSPACE}
+
+      - name: 'Release'
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 23.0.0
+          extra_plugins: |
+            @semantic-release/commit-analyzer@11.1.0
+            conventional-changelog-conventionalcommits@7.0.2
