@@ -24,7 +24,7 @@ jobs:
     permissions: write-all
     env:
       # replace to PAT token of one of repo admin
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
       - name: 'Debug'
         run: |
