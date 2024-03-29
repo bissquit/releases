@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   release:
     name: 'Release'
@@ -15,7 +18,7 @@ jobs:
     defaults:
       run:
         shell: bash
-    permissions: write-all
+#    permissions: write-all
     env:
       GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
@@ -49,3 +52,8 @@ jobs:
           extra_plugins: |
             @semantic-release/commit-analyzer@11.1.0
             conventional-changelog-conventionalcommits@7.0.2
+
+  publish-docs:
+    needs: release
+    uses: ./.github/workflows/tmp.yml
+    secrets: inherit
