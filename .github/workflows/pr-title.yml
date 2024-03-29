@@ -6,8 +6,8 @@ on:
       - opened
       - reopened
       - edited
-    branches-ignore:
-      - 'main'
+#    branches-ignore:
+#      - 'main'
 
 jobs:
   pr-title:
