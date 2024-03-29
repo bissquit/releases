@@ -6,8 +6,9 @@ on:
       - main
   workflow_dispatch:
 
-permissions:
-  contents: write
+# in case of PAT usage write-all token permissions is not required
+# otherwise uncomment option below
+#permissions: write-all
 
 jobs:
   release:
@@ -18,10 +19,9 @@ jobs:
     defaults:
       run:
         shell: bash
-#    permissions: write-all
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      GITHUB_TOKEN: ${{ secrets.PAT }}
+#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
       - name: 'Debug'
         run: |
@@ -53,8 +53,3 @@ jobs:
           extra_plugins: |
             @semantic-release/commit-analyzer@11.1.0
             conventional-changelog-conventionalcommits@7.0.2
-
-  publish-docs:
-    needs: release
-    uses: ./.github/workflows/tmp.yml
-    secrets: inherit
