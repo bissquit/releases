@@ -1,4 +1,4 @@
-name: 'Validate PR'
+name: 'Validate PR title'
 
 on:
   pull_request_target:
@@ -6,8 +6,12 @@ on:
       - opened
       - reopened
       - edited
-#    branches-ignore:
-#      - 'main'
+    # we don't need to check pr title to 'main' because merge to 'main' will
+    # be done by 'merge.yml' workflow
+    branches-ignore:
+      - 'main'
+
+permissions: write-all
 
 jobs:
   pr-title:
@@ -20,7 +24,6 @@ jobs:
         shell: bash
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      GITHUB_TOKEN: ${{ secrets.PAT }}
     steps:
       - uses: amannn/action-semantic-pull-request@v5
         with:
