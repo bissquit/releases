@@ -4,14 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       im_sure:
-        description: Merge branch to main and remove
+        description: Merge branch to main
         type: boolean
         required: false
         default: false
 
 env:
   BASE_BRANCH: main
-  RELEASE_BRANCH_PREFIX: release-
+  DEV_BRANCH: dev
 
 # in case of PAT usage write-all token permissions is not required
 # otherwise uncomment option below
@@ -66,7 +66,8 @@ jobs:
 
       - name: 'Run tests'
         run: |
-          [[ ${GITHUB_REF_NAME} != ${BASE_BRANCH} ]] && echo "Branch name is ok" || { echo "You are on ${GITHUB_REF_NAME} branch, exiting..." ; exit 1 ; }
+          [[ ${GITHUB_REF_NAME} != ${BASE_BRANCH} ]] && echo "Branch name is not ${BASE_BRANCH}" || { echo "You are on ${GITHUB_REF_NAME} branch, exiting..." ; exit 1 ; }
+          [[ ${GITHUB_REF_NAME} != ${DEV_BRANCH} ]] && echo "Branch name is not ${DEV_BRANCH}" || { echo "You are on ${GITHUB_REF_NAME} branch, exiting..." ; exit 1 ; }
 
           LAST_REF_COMMIT=$(git show-ref --heads -s ${BASE_BRANCH})
           BRANCH_BASE_COMMIT=$(git merge-base ${BASE_BRANCH} ${GITHUB_REF_NAME})
@@ -81,5 +82,5 @@ jobs:
           git merge --ff-only ${GITHUB_REF_NAME}
           git push origin ${BASE_BRANCH}
 
-          git push -d origin ${GITHUB_REF_NAME}
-          git branch --delete ${GITHUB_REF_NAME}
+#          git push -d origin ${GITHUB_REF_NAME}
+#          git branch --delete ${GITHUB_REF_NAME}
