@@ -1,10 +1,7 @@
 {
   "branches": [
     "main",
-    "release",
     {"name": "release-*", "prerelease": true},
-    {"name": "alpha", "prerelease": true},
-    {"name": "beta", "prerelease": true},
     {"name": "dev", "prerelease": true}
   ],
   "ci": false,
