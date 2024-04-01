@@ -16,6 +16,9 @@ on:
 
 permissions: write-all
 
+env:
+  RELEASE_VERSION: ${{ inputs.version }}
+
 jobs:
   docs-gen:
     runs-on: ubuntu-latest
@@ -23,4 +26,4 @@ jobs:
       - name: Dummy command
         run: |
           echo ---
-          echo ${{ inputs.version }}
+          echo ${RELEASE_VERSION}

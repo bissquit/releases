@@ -64,23 +64,9 @@ jobs:
     outputs:
       release_version: ${{ steps.release_version.outputs.RELEASE_VERSION }}
 
-
   publish-package:
     needs: release
     uses: ./.github/workflows/tmp.yml
     with:
       version: ${{ needs.release.outputs.release_version }}
     secrets: inherit
-
-
-#  check-version:
-#    needs: release
-#    #runs-on: [self-hosted, infra]
-#    runs-on: ubuntu-20.04
-#    env:
-#      RELEASE_VERSION: ${{ needs.release.outputs.release_version }}
-#    steps:
-#      - name: Get release version
-#        run: |
-#          echo ---
-#          echo ${RELEASE_VERSION}
