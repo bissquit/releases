@@ -8,7 +8,7 @@ on:
 
 # in case of PAT usage write-all token permissions is not required
 # otherwise uncomment option below
-#permissions: write-all
+permissions: write-all
 
 jobs:
   release:
