@@ -1,8 +1,14 @@
 {
   "branches": [
     "main",
-    {"name": "release-*", "prerelease": true},
-    {"name": "dev", "prerelease": true}
+    {
+      "name": "release-*",
+      "prerelease": true
+    },
+    {
+      "name": "dev",
+      "prerelease": true
+    }
   ],
   "ci": false,
   "plugins": [
@@ -11,19 +17,53 @@
       {
         "preset": "conventionalcommits",
         "releaseRules": [
-          { "type": "chore", "release": false },
-          { "type": "ci", "release": false },
-          { "type": "docs", "release": false },
-          { "type": "feat", "release": "minor" },
-          { "type": "fix", "release": "patch" },
-          { "type": "refactor", "release": "patch" },
-          { "type": "revert", "release": "patch" },
-          { "type": "style", "release": false },
-          { "type": "test", "release": false },
-          { "scope": "no-release", "release": false }
+          {
+            "type": "chore",
+            "release": false
+          },
+          {
+            "type": "ci",
+            "release": false
+          },
+          {
+            "type": "docs",
+            "release": false
+          },
+          {
+            "type": "feat",
+            "release": "minor"
+          },
+          {
+            "type": "fix",
+            "release": "patch"
+          },
+          {
+            "type": "refactor",
+            "release": "patch"
+          },
+          {
+            "type": "revert",
+            "release": "patch"
+          },
+          {
+            "type": "style",
+            "release": false
+          },
+          {
+            "type": "test",
+            "release": false
+          },
+          {
+            "scope": "no-release",
+            "release": false
+          }
         ],
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         }
       }
     ],
@@ -76,7 +116,11 @@
           ]
         },
         "parserOpts": {
-          "noteKeywords": ["BREAKING CHANGE", "BREAKING CHANGES", "BREAKING"]
+          "noteKeywords": [
+            "BREAKING CHANGE",
+            "BREAKING CHANGES",
+            "BREAKING"
+          ]
         }
       }
     ],
