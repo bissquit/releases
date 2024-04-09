@@ -55,18 +55,18 @@ jobs:
             @semantic-release/exec@6.0.3
             conventional-changelog-conventionalcommits@7.0.2
 
-      - name: 'Get release_version and pass to next job'
-        id: release_version
-        # see .releaserc.json to obtain certain file name
-        run: |
-          echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_OUTPUT
-
-    outputs:
-      release_version: ${{ steps.release_version.outputs.RELEASE_VERSION }}
-
-  publish-package:
-    needs: release
-    uses: ./.github/workflows/tmp.yml
-    with:
-      version: ${{ needs.release.outputs.release_version }}
-    secrets: inherit
+#      - name: 'Get release_version and pass to next job'
+#        id: release_version
+#        # see .releaserc.json to obtain certain file name
+#        run: |
+#          echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_OUTPUT
+#
+#    outputs:
+#      release_version: ${{ steps.release_version.outputs.RELEASE_VERSION }}
+#
+#  publish-package:
+#    needs: release
+#    uses: ./.github/workflows/tmp.yml
+#    with:
+#      version: ${{ needs.release.outputs.release_version }}
+#    secrets: inherit
