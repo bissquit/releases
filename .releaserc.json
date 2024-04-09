@@ -57,14 +57,7 @@
             "scope": "no-release",
             "release": false
           }
-        ],
-        "parserOpts": {
-          "noteKeywords": [
-            "BREAKING CHANGE",
-            "BREAKING CHANGES",
-            "BREAKING"
-          ]
-        }
+        ]
       }
     ],
     [
@@ -113,13 +106,6 @@
               "type": "test",
               "hidden": true
             }
-          ]
-        },
-        "parserOpts": {
-          "noteKeywords": [
-            "BREAKING CHANGE",
-            "BREAKING CHANGES",
-            "BREAKING"
           ]
         }
       }
