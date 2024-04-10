@@ -25,10 +25,6 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: 'Debug'
-        run: |
-          printenv
-
       - uses: amannn/action-semantic-pull-request@v5
         with:
           # https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional
