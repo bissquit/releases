@@ -26,3 +26,11 @@ body:
         4. See error
     validations:
       required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Environment (e.g. OS, JDK, IntelliJ IDEA version), logs or even screenshot
+      placeholder: Any additional information is appreciated
+    validations:
+      required: true
