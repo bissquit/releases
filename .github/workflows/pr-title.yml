@@ -27,9 +27,12 @@ jobs:
     steps:
       - name: 'Check current branch'
         run: |
-          echo 123
-          env
-          [[ "${GITHUB_REF_NAME}" == "${BASE_BRANCH}" ]] && { echo "Pull request to main branch is strictly prohibited" ; exit 1 ; }
+          if [[ "${GITHUB_REF_NAME}" == "${BASE_BRANCH}" ]] ; then
+            echo "Pull request to main branch is strictly prohibited"
+            exit 1
+          else
+            echo "Branch is Ok"
+          fi
 
       - name: 'Validate PR title'
         uses: amannn/action-semantic-pull-request@v5
