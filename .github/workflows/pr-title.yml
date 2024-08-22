@@ -27,6 +27,7 @@ jobs:
     steps:
       - name: 'Check current branch'
         run: |
+          env
           [[ "${GITHUB_REF_NAME}" == "${BASE_BRANCH}" ]] && { echo "Pull request to main branch is strictly prohibited" ; exit 1 ; }
 
       - name: 'Validate PR title'
