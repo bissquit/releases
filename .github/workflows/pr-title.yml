@@ -9,6 +9,9 @@ on:
 
 permissions: write-all
 
+env:
+  BASE_BRANCH: main
+
 jobs:
   pr-title:
     name: 'Title'
