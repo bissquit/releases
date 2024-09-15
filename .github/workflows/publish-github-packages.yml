@@ -1,4 +1,4 @@
-name: Publish OpenAPI server docs
+name: Publish package to GitHub Packages
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ jobs:
   docs-gen:
     runs-on: ubuntu-latest
     steps:
-      - name: Dummy command
+      - name: 'Dummy command'
         run: |
           echo ---
           echo ${RELEASE_VERSION}
