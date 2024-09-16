@@ -1,4 +1,4 @@
-name: 'Run fast-forward merge'
+name: 'Merge dev to main'
 
 on:
   workflow_dispatch:
