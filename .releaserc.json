@@ -1,10 +1,6 @@
 {
   "branches": [
-    "main",
-    {
-      "name": "release-*",
-      "prerelease": true
-    },
+    "main"
     {
       "name": "dev",
       "prerelease": true
@@ -117,9 +113,16 @@
     [
       "@semantic-release/github",
       {
-        "successComment": "This ${issue.pull_request ? 'PR is included' : 'issue has been resolved'} in version ${nextRelease.version} :tada:",
+        "successComment": false,
+        "failTitle": false,
         "labels": false,
-        "releasedLabels": false
+        "releasedLabels": false,
+        "assets": [
+          {
+            "path": "./dummy-data.txt",
+            "label": "dummy-data"
+          }
+        ]
       }
     ],
     [
