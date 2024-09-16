@@ -11,73 +11,66 @@ on:
 permissions: write-all
 
 jobs:
-  build-app:
+  build-and-release:
     name: 'Build app'
     # runs-on: [self-hosted, ex44]
     runs-on: ubuntu-20.04
-    container: ubuntu:20.04
-    defaults:
-      run:
-        shell: bash
-    steps:
-      - name: 'Debug'
-        run: |
-          printenv
-
-      - name: 'Checkout repository'
-        uses: actions/checkout@v4
-
-      - name: 'Build app'
-        run: |
-          echo "dummy-data" > dummy-data.txt
-
-      - name: 'Upload artifact'
-        uses: actions/upload-artifact@v4
-        with:
-          name: dummy-data
-          path: ./dummy-data.txt
-          retention-days: 1
-
-  release:
-    name: 'Release'
-    #runs-on: [self-hosted, infra]
-    runs-on: ubuntu-20.04
-    needs: build-app
-    container: node:20-bullseye
+    container: explyt/plugin-env:v1.0.0
     defaults:
       run:
         shell: bash
     env:
-#      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      GITHUB_TOKEN: ${{ secrets.PAT }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: 'Debug'
         run: |
           printenv
 
-      - name: 'Install and Configure applications'
-        run: |
-          apt-get update
-          apt-get install -yqq --no-install-recommends \
-            ca-certificates \
-            git-core
-          rm /bin/sh
-          ln -s /bin/bash /bin/sh
-
       - name: 'Checkout repository'
         uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-          fetch-depth: 0
+
+      - name: 'Install prerequisites'
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          apt-get update && apt-get install -yqq --no-install-recommends \
+            ca-certificates \
+            git-core
+          rm /bin/sh && ln -s /bin/bash /bin/sh
+
+      - name: 'Install node'
+        run: |
+          curl -sL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
+          chmod +x /tmp/nodesource_setup.sh
+          bash /tmp/nodesource_setup.sh
+          apt-get install -yqq --no-install-recommend nodejs
 
       - name: 'Add git path to trusted'
         run: |
           git config --global --add safe.directory ${GITHUB_WORKSPACE}
 
-      - name: 'Download app'
-        uses: actions/download-artifact@v4
+      # dry run
+      - name: 'Release dry-run'
+        uses: cycjimmy/semantic-release-action@v4
         with:
-          name: dummy-data
+          semantic_version: 23.0.0
+          extra_plugins: |
+            @semantic-release/commit-analyzer@11.1.0
+            @semantic-release/exec@6.0.3
+            conventional-changelog-conventionalcommits@7.0.2
+          # run with dry_run mode to get the next release version and pass to build app
+          dry_run: true
+
+      - name: 'Get the next release version'
+        id: release_version
+        # see .releaserc.json to get certain file name
+        run: |
+          echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_OUTPUT
+          echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_ENV
+
+      - name: 'Build app'
+        run: |
+          echo "${RELEASE_VERSION}" > dummy-data.txt
 
       - name: 'Release'
         uses: cycjimmy/semantic-release-action@v4
@@ -88,17 +81,12 @@ jobs:
             @semantic-release/exec@6.0.3
             conventional-changelog-conventionalcommits@7.0.2
 
-      - name: 'Get release_version and pass to next job'
-        id: release_version
-        # see .releaserc.json to obtain certain file name
-        run: |
-          echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_OUTPUT
-
     outputs:
       release_version: ${{ steps.release_version.outputs.RELEASE_VERSION }}
 
   publish-package:
-    needs: release
+    name: 'Publish package'
+    needs: build-and-release
     uses: ./.github/workflows/publish-github-packages.yml
     with:
       version: ${{ needs.release.outputs.release_version }}
