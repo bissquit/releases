@@ -43,7 +43,7 @@ jobs:
           curl -sL https://deb.nodesource.com/setup_20.x -o /tmp/nodesource_setup.sh
           chmod +x /tmp/nodesource_setup.sh
           bash /tmp/nodesource_setup.sh
-          apt-get install -yqq --no-install-recommend nodejs
+          apt-get install -yqq --no-install-recommends nodejs
 
       - name: 'Add git path to trusted'
         run: |
