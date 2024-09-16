@@ -37,6 +37,14 @@ jobs:
         run: |
           printenv
 
+      - name: 'Check actor'
+        run: |
+          if [[ ${GITHUB_ACTOR} =~ ^(bissquit)$ ]]; then
+            echo Ok
+          else
+            { echo "You are not permitted to run, exiting..." ; exit 1 ; }
+          fi
+
       - name: 'Install and Configure applications'
         run: |
           apt-get update
@@ -80,6 +88,3 @@ jobs:
           git checkout ${BASE_BRANCH}
           git merge --ff-only ${GITHUB_REF_NAME}
           git push origin ${BASE_BRANCH}
-
-#          git push -d origin ${GITHUB_REF_NAME}
-#          git branch --delete ${GITHUB_REF_NAME}
