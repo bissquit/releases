@@ -64,6 +64,9 @@
       "@semantic-release/release-notes-generator",
       {
         "preset": "conventionalcommits",
+        "writerOpts": {
+          "commitsSort": false
+        }
         "presetConfig": {
           "types": [
             {
