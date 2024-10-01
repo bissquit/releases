@@ -65,6 +65,9 @@ jobs:
         id: release_version
         # see .releaserc.json to get certain file name
         run: |
+          set -euxo pipefail
+          ls -lha
+          cat release_version.txt
           echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_OUTPUT
           echo "RELEASE_VERSION=$(cat release_version.txt)" >> $GITHUB_ENV
 
