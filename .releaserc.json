@@ -131,7 +131,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "echo v${nextRelease.version} > release_version.txt"
+        "verifyReleaseCmd": "echo ${nextRelease.version} > release_version.txt"
       }
     ]
   ]
