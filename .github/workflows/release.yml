@@ -92,5 +92,5 @@ jobs:
     needs: build-and-release
     uses: ./.github/workflows/publish-github-packages.yml
     with:
-      version: ${{ needs.release.outputs.release_version }}
+      version: ${{ needs.build-and-release.outputs.release_version }}
     secrets: inherit
