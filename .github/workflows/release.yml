@@ -75,6 +75,10 @@ jobs:
         run: |
           echo "${RELEASE_VERSION}" > dummy-data.txt
 
+      - name: 'Check environment'
+        run: |
+          env
+
       - name: 'Release'
         uses: cycjimmy/semantic-release-action@v4
         with:
